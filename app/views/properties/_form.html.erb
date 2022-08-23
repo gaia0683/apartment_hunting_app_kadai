@@ -1,0 +1,68 @@
+<%= form_with(model: @property, local: true) do |form| %>
+  <% if @property.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= @property.errors.count %>件のエラーがあります。</h2>
+      <ul>
+      <% @property.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div  class="property_name">
+    <%= form.label :name %>
+    <br>
+    <%= form.text_field :name %>
+  </div>
+  <div class="properties_rent">
+    <%= form.label :rent %>
+    <br>
+    <%= form.text_field :rent %>円
+  </div>
+  <div class="properties_address">
+    <%= form.label :address %>
+    <br>
+    <%= form.text_field :address %>
+  </div>
+  <div class="properties_age">
+    <%= form.label :age %>
+    <br>
+    <%= form.text_field :age %>年
+  </div>
+  <div class="properties_remarks">
+    <%= form.label :remarks %>
+    <br>
+    <%= form.text_area :remarks %>
+  </div>
+  <hr>
+  <%= form.fields_for(:nearest_stations) do |stations| %>
+    <h3>最寄り駅<%= stations.index + 1 %></h3>
+    <div class="stations_rail_line_name">
+      <%= stations.label :rail_line_name %>
+      <br>
+      <%= stations.text_field :rail_line_name %>
+    </div>
+    <div class="stations_station_name">
+      <%= stations.label :station_name %>
+      <br>
+      <%= stations.text_field :station_name %>
+    </div>
+    <div class="stations_walk">
+      <%= stations.label :walk %>
+      <br>
+      <%= stations.text_field :walk %>分
+    </div>
+  <% end %>
+  <% if @property.new_record? %>
+    <%= form.submit '登録する' %>
+  <% else %>
+    <%= form.submit '更新する' %>
+  <% end %>
+<% end %>
+
+<td><%= link_to '詳細', property_path(@property.id)unless @property.new_record?
+%></td>
+|
+<td><%= link_to '戻る', properties_path  %>
+</td>
