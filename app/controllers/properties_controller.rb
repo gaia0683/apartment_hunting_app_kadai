@@ -1,5 +1,5 @@
 class PropertiesController < ApplicationController
-  before_action :set_property, only: [:show, :edit, :update]
+  before_action :set_property, only: [:show, :edit, :update, :destroy]
 
   def index
   @properties = Property.all
@@ -28,6 +28,16 @@ class PropertiesController < ApplicationController
   end
 
   def update
+    if @property.update(property_params)
+      redirect_to properties_path
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @property.destroy
+    redirect_to properties_path
   end
 
   private
@@ -37,7 +47,7 @@ class PropertiesController < ApplicationController
   end
 
   def property_params
-    params.require(:property).permit(:name, :rent, :address, :age, :remarks, nearest_stations_attributes:[
-      :rail_line_name, :station_name,  :property_id, :walk])
+    params.require(:property).permit(:name, :rent, :address, :age, :remarks, nearest_stations_attributes:[:id,
+      :rail_line_name, :station_name,  :property_id, :walk,:destroy])
   end
 end
